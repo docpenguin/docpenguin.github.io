@@ -1,68 +1,75 @@
 # -*- coding: utf-8 -*-
 """
-model.py 1.0
+model.py 2.0
 
 Copyright (c) School of Geography.
 University of Leeds, Leeds, West Yorkshire, UK, LS2 9JT.
 
 Created on Sat Oct 28 11:28:48 2017
 
-@author: Ourania Sermpezi
+@author: Rania
 """
 
 import random
-import math
+#import math
+import operator
+import matplotlib.pyplot
 
-# Setting up some variables
-#y0 = 50
-#x0 = 50
+# Creating an empty list.
 
-# using random's random() function to create a floating variable between 0
-# and just less than 1, and checking whether it is smaller than 0.5.
-# y0 is assigned 51 or 49 according to the random value.
+agents = []
 
-#if random.random() < 0.5:
-#    y0 += 1
-#else:
-#    y0 -= 1
 
-# Running the same code for x0.
-#if random.random() < 0.5:
-#    x0 += 1
-#else:
-#    x0 -= 1
+# Adding two random integer numbers between 0 and 99 to the list and printing
+# it.
 
-# Generating two random integer numbers between 0 and 99.
-y0 = random.randint (0, 99)
-x0 = random.randint (0, 99)
-# printing the new values of y0 and x0.
-print(y0)
-print(x0)
+agents.append([random.randint (0, 99), random.randint (0, 99)])
 
-# Setting up a different set of variables and undertaking the same analysis
-# as before.
-#y1 = 50
-#x1 = 50
 
-#if random.random() < 0.5:
-#    y1 += 1
-#else:
-#    y1 -= 1
+print(agents)
 
-# Running the same code for x0.
-#if random.random() < 0.5:
-#    x1 += 1
-#else:
-#    x1 -= 1
 
-# Generating two random integer numbers between 0 and 99.
-y1 = random.randint (0, 99)
-x1 = random.randint (0, 99)
-# printing the new values of y0 and x0.
-print(y1)
-print(x1)
+agents.append([random.randint (0, 99), random.randint (0, 99)])
+
+
+print(agents)
+
+# Finding the max value between the two y coordinates.
+#print (max(agents))
+
+
+# Finding the max value in the agents list, however, only looking at
+# values that are in second elements i.e. 1 i.e. x values.
+
+print(max(agents, key=operator.itemgetter(1)))
+
+
+# Setting the y and x limits of the plot axes between 0 and 99.
+
+matplotlib.pyplot.ylim(0, 99)
+
+
+matplotlib.pyplot.xlim(0, 99)
+
+
+# Creating a scatter plot of x vs y. e.g. for [[26, 43], [12, 43]]
+# it would be 43 and 26. This is the point further east and the
+# colour is changed to 'red'.
+
+matplotlib.pyplot.scatter(agents[0][1], agents[0][0], color= 'red')
+
+
+# Same as above but for the other combination of y and xs.
+
+matplotlib.pyplot.scatter(agents[1][1], agents[1][0])
+
+
+# Displaying the scatter plot.
+
+matplotlib.pyplot.show()
+
 
 # Setting up a new variable to calculate the eucledian distance between
 # the two coordinate points.
-euclDist = math.sqrt(((y0 - y1) ** 2) + ((x0 - x1) ** 2))
-print(euclDist)
+#euclDist = math.sqrt(((y0 - y1) ** 2) + ((x0 - x1) ** 2))
+#print (euclDist)
