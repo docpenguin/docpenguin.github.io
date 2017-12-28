@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-model.py 4.0
+model.py 5.0
 
 Copyright (c) School of Geography.
 University of Leeds, Leeds, West Yorkshire, UK, LS2 9JT.
@@ -10,26 +10,34 @@ Created on Sat Oct 28 11:28:48 2017
 @author: Ourania Sermpezi
 """
 
-import random
+#model.py
+
+#import random
 import math
 #import operator
 import matplotlib.pyplot
-import datetime
+import agentframework
+
+
+# Creating an object of type 'Agent'.
+
+#a = agentframework.Agent()
+
+
+#print(a._y, a._x)
+
+#a.move()
+
+
+#print(a._y, a._x)
+
 
 # Defining the eucledian distance method.
 
 def distance_between(agent0, agent1):
-    return math.sqrt(((agent0[0] - agent1[0])**2) + ((agent0[1] - agent1[1])**2))
-
-
-# Defining the method that calculates the current time.
-
-def getTimeMS():
-    dt = datetime.datetime.now()
-    return dt.microsecond + (dt.second * 1000000) + \
-    (dt.minute * 1000000 * 60) + (dt.hour * 1000000 * 60 * 60)
+    return math.sqrt(((agent0.x - agent1.x)**2) + ((agent0.y - agent1.y)**2))
     
-    
+
 # Creating a variable for the number of agents.
     
 num_of_agents = 10
@@ -51,48 +59,32 @@ agents = []
 dist_list = []
 
 
+# Making an agentframework type object.
+#a = agentframework.Agent()
+
+
+# Testing that the code works.
+#print(a.y, a.x)
+
+
+# Testing that the move method works.
+#a.move()
+#print(a.y, a.x)
+
 # Generating num_of_agents random coordinates between 0 and 99, by running a
 # loop.
 
+
 for i in range(num_of_agents):
-    agents.append ([random.randint (0, 99), random.randint (0, 99)])
-#    print (agents)
+    agents.append (agentframework.Agent())
 
 
 # Creating a loop to move the coordinates num_of_iterations times.
 
-for k in range(num_of_iterations):
+for j in range(num_of_iterations):
     for i in range(num_of_agents):
-        # 2 columns.
-		
-        for j in range(2):
-            # Generating a random integer number between 0 and 1 and comparing
-            # it to 0.5 to either increment or decrement the coordinate
-            # values.
-			
-            if random.random() < 0.5:
-                agents[i][j] += 1
-            else:
-                agents[i][j] -= 1
-            # Setting up a 'torus' boundary solution, whereby agents are
-            # allowed to leave the top of an area and come in at the bottom
-            # or leave left and come from the right.
-            # For agent values that are below 0, their absolute number is
-            # used, which is always positive.
-			
-            if agents[i][j] < 0:
-                agents[i][j] = abs(agents[i][j])
-            # For agent values above 100, remove 100 from the value and
-            # let them come in from the other side with the remainder part
-            # of the value.
-			
-            elif agents[i][j] > 100:
-                agents[i][j] = (agents[i][j])-100
-            # For everything else, keep the values as they are.
-			
-            else:
-                agents[i][j] = agents[i][j]
-                
+        agents[i].move()
+
                 
 # Printing the new coordinates to test that the loop has worked.
                 
@@ -108,7 +100,7 @@ matplotlib.pyplot.xlim(0, 99)
 # Looping through the x and ys of each agent and plotting them.
 
 for i in range(num_of_agents):
-    matplotlib.pyplot.scatter(agents[i][1], agents[i][0])
+    matplotlib.pyplot.scatter(agents[i].x, agents[i].y)
 
 
 # Finding the max value between all the x coordinates which are at position
@@ -122,11 +114,6 @@ for i in range(num_of_agents):
     
 matplotlib.pyplot.show()
 
-# Setting up a variable to calculate the time that the distance_between function
-# starts.
-
-start = getTimeMS()
-
 
 # Going through all agents and calculating their eucledian distance to all
 # other agents.
@@ -138,25 +125,4 @@ for agent0 in agents:
         
         if agent0 != agent1:
             distance = distance_between(agent0, agent1)
-            # Appending all the distances into a list.
-            
-            dist_list.append(distance)
 
-
-# Calculating the maximum and minimum distances.
-        
-max_distance = max(dist_list)
-
-min_distance = min(dist_list)
-
-
-# Setting up a variable to calculate the time that the distance_between function
-# finishes.
-        
-end = getTimeMS()
-
-
-# Printing the length of time it took for the distance_between function to work
-# through the loop.
-
-print("time = " + str(end - start))
