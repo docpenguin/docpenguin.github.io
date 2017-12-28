@@ -1,76 +1,60 @@
 # -*- coding: utf-8 -*-
 """
-agentframework.py 2.0
+agentframework.py 3.0
 
 Copyright (c) School of Geography.
 University of Leeds, Leeds, West Yorkshire, UK, LS2 9JT.
 
-
 Created on Wed Nov 29 19:08:57 2017
 
-@author: Ourania Sermpezi
+@author: Rania
 """
 
 #agentframework.py
 
 import random
+import math
 
 
 # Creating a class to randomise the coordinates of the agents.
 class Agent():
-    # Overriding the __init__ method to take in the list 'environment'.
+    # Overriding the __init__ method to take in the lists 'environment' and
+    # 'agents' which allows for communication between the various agents in
+    # model.py.
     
-    def __init__(self, environment):
+    def __init__(self, environment, agents):
         self._x = random.randint(0, 99)
         self._y = random.randint(0, 99)
         self.environment = environment
+        self.agents = agents
+        # How much the agents have in store.
+		
         self.store = 0
     
-    
-    # Setting up an accessor method, so that 'x' cannot be accidentally changed.
     
     def getx(self):
         return self._x
     
     
-    # Setting up a mutator method, so that 'x' cannot be accidentally changed.
-    
     def setx(self, value):
         self._x = value
     
-    
-    # Setting up a method that deletes 'x'.
-    
-    def delx(self):
-        del self._x
-    
-    
-    # Setting up an accessor method, so that 'y' cannot be accidentally changed.
     
     def gety(self):
         return self._y
     
     
-     # Setting up a mutator method, so that 'y' cannot be accidentally changed.
-     
     def sety(self, value):
         self._y = value
     
     
-    # Setting up a method that deletes 'y'
+    x = property(getx, setx)
     
-    def dely(self):
-        del self._y
-    
-    
-    # Setting up the property for the accessor and mutator methods.
-    
-    x = property(getx, setx, delx)
-    
-    y = property(gety, sety, dely)
+    y = property(gety, sety)
     
     
-    # Setting up a method that moves the agents by one step.
+    # This method changes the coordinates of agents according to random numbers
+    # and their relationship with the number '0.5'.
     
     def move(self):
         if random.random() < 0.5:
@@ -84,10 +68,32 @@ class Agent():
             self._x = (self._x - 1) % 100
 
     
-    # Setting up a method so that the agents eat part of the environment
-    # and then store the food.
+    # This method gets the agents to eat some of the environment around them,
+    # therefore changing values.
     
     def eat(self):
         if self.environment[self._y][self._x] > 10:
             self.environment[self._y][self._x] -= 10
+            # Additional 10 units stored for the agent.
             self.store += 10
+    
+    
+    # This method calls the distance_between method to calculate the distance
+    # between agents and compare it with the neighbourhood variable to decide
+    # whether to turn the agents' store into the average of their stores' sum.
+    
+    def share_with_neighbours(self, neighbourhood):
+        self.neighbourhood = neighbourhood
+        for agent in self.agents:
+            distance_agents = self.distance_between(agent)
+            if distance_agents <= neighbourhood:
+                average = (self.store + agent.store)/ 2
+                self.store = average
+                agent.store = average
+   
+    
+    # Defining the eucledian distance method to calculate the distance between 
+    # agents.
+    
+    def distance_between(self, agent):
+          return math.sqrt(((self._x - agent._x)**2) + ((self._y - agent._y)**2))      
