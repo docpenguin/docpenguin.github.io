@@ -17,7 +17,7 @@ import matplotlib.pyplot
 import matplotlib.animation
 import agentframework
 import csv
-```
+
 
 
 
@@ -190,4 +190,4 @@ with open('dataout.csv', 'w', newline = '') as f2:
     writer = csv.writer(f2)
     for row in environment:
         writer.writerow(row)
-
+```
