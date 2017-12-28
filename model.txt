@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-model.py 5.0
+model.py 6.0
 
 Copyright (c) School of Geography.
 University of Leeds, Leeds, West Yorkshire, UK, LS2 9JT.
@@ -17,26 +17,9 @@ import math
 #import operator
 import matplotlib.pyplot
 import agentframework
+import csv
 
 
-# Creating an object of type 'Agent'.
-
-#a = agentframework.Agent()
-
-
-#print(a._y, a._x)
-
-#a.move()
-
-
-#print(a._y, a._x)
-
-
-# Defining the eucledian distance method.
-
-def distance_between(agent0, agent1):
-    return math.sqrt(((agent0.x - agent1.x)**2) + ((agent0.y - agent1.y)**2))
-    
 
 # Creating a variable for the number of agents.
     
@@ -48,42 +31,52 @@ num_of_agents = 10
 num_of_iterations = 100
 
 
+# Creating an empty list for the CSV reader to store the data in.
+environment = []
+
+
 # Creating an empty list.
 
 agents = []
 
 
-# Creating an empty list in order to store all the distances and derive minimum
-# and maximums.
+# Reading the txt file through the csv reader and saving the data into a 2D
+# list called 'environment'.
 
-dist_list = []
+with open('in.txt', newline = '') as f:
+    # Turning all numbers into floats.
+	
+    reader = csv.reader(f, quoting = csv.QUOTE_NONNUMERIC)
+    for row in reader:
+        # Setting up another local list.
+		
+        rowlist = []
+        # For each value in the row, append it to rowlist. Once the row is
+        # full, move onto the next row until all of them are full of values
+        # which are appended to rowlist.
+		
+        for value in row:
+            rowlist.append(value)
+        # Once rowlist is full of values, append rowlist in environment, so
+        # that each row is a new list in environment.
+		
+        environment.append(rowlist)
+    
 
-
-# Making an agentframework type object.
-#a = agentframework.Agent()
-
-
-# Testing that the code works.
-#print(a.y, a.x)
-
-
-# Testing that the move method works.
-#a.move()
-#print(a.y, a.x)
-
-# Generating num_of_agents random coordinates between 0 and 99, by running a
-# loop.
-
+# Filling the 'agents' list with the 'environment' type list containing all the
+# data from the txt file.
 
 for i in range(num_of_agents):
-    agents.append (agentframework.Agent())
+    agents.append(agentframework.Agent(environment))
 
 
-# Creating a loop to move the coordinates num_of_iterations times.
+# Creating a loop to move the coordinates num_of_iterations times and get the
+# agents to eat.
 
 for j in range(num_of_iterations):
     for i in range(num_of_agents):
         agents[i].move()
+        agents[i].eat()
 
                 
 # Printing the new coordinates to test that the loop has worked.
@@ -97,22 +90,35 @@ matplotlib.pyplot.ylim(0, 99)
 matplotlib.pyplot.xlim(0, 99)
 
 
+# Displaying the environment list in a plot.
+
+matplotlib.pyplot.imshow(environment)
+
+
 # Looping through the x and ys of each agent and plotting them.
 
 for i in range(num_of_agents):
     matplotlib.pyplot.scatter(agents[i].x, agents[i].y)
 
 
-# Finding the max value between all the x coordinates which are at position
-# 1 of the list, i.e. which one is the most easterly one.
-#m = max(agents, key=operator.itemgetter(1))
-# Turning the most easterly point in the list into red.
-#matplotlib.pyplot.scatter(m[1], m[0], color = 'red')
-
-
 # Displaying the scatter plot.
-    
+
 matplotlib.pyplot.show()
+
+
+# Writing the amended environment data into a csv file. "newline = ''" stops
+# from leaving one empty row after each one that is being filled in the new file.
+
+with open('dataout.csv', 'w', newline = '') as f2:
+    writer = csv.writer(f2)
+    for row in environment:
+        writer.writerow(row)
+
+
+# Defining the eucledian distance method.
+
+def distance_between(agent0, agent1):
+    return math.sqrt(((agent0.x - agent1.x)**2) + ((agent0.y - agent1.y)**2))
 
 
 # Going through all agents and calculating their eucledian distance to all
@@ -120,9 +126,5 @@ matplotlib.pyplot.show()
 
 for agent0 in agents:
     for agent1 in agents:
-        # Restricting the calculation of distance so that it does not check
-        # between an agent and itself.
+        distance = distance_between(agent0, agent1)
         
-        if agent0 != agent1:
-            distance = distance_between(agent0, agent1)
-
