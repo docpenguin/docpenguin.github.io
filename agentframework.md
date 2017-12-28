@@ -17,7 +17,6 @@ import random
 import math
 
 
-
 class Agent():
 	"""
 	Override the __init__ method so that x and y values are created randomly for each agent and create accessor
