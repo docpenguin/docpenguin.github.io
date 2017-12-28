@@ -1,3 +1,4 @@
+```python
 # -*- coding: utf-8 -*-
 """
 model.py 8.0
@@ -11,7 +12,7 @@ Created on Sat Oct 28 11:28:48 2017
 """
 
 #model.py
-```python
+
 import random
 import matplotlib.pyplot
 import matplotlib.animation
