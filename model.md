@@ -20,8 +20,6 @@ import agentframework
 import csv
 
 
-
-
 # Creating a variable for the number of agents.
     
 num_of_agents = 10
