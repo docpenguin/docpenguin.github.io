@@ -9,7 +9,7 @@ and share information between each other about their feeding and food-storage pa
 The ABM project has been written with python 3 and tested on Spyder and Windows 7 command prompt.
 
 # License <h3>
-Licensed under the Academic Free License version 3.0
+Licensed under the **Academic Free License version 3.0**
 
 1. Grant of Copyright License. Licensor grants You a worldwide, royalty-free, non-exclusive, sublicensable license, for the duration of the copyright, to do the following:
     1. to reproduce the Original Work in copies, either alone or as part of a collective work;
