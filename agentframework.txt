@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-agentframework.py 1.0
+agentframework.py 2.0
 
 Copyright (c) School of Geography.
 University of Leeds, Leeds, West Yorkshire, UK, LS2 9JT.
+
 
 Created on Wed Nov 29 19:08:57 2017
 
@@ -16,12 +17,14 @@ import random
 
 
 # Creating a class to randomise the coordinates of the agents.
-class Agent(): 
-    # Overriding the __init__ method.
+class Agent():
+    # Overriding the __init__ method to take in the list 'environment'.
     
-    def __init__(self):
+    def __init__(self, environment):
         self._x = random.randint(0, 99)
         self._y = random.randint(0, 99)
+        self.environment = environment
+        self.store = 0
     
     
     # Setting up an accessor method, so that 'x' cannot be accidentally changed.
@@ -79,3 +82,12 @@ class Agent():
             self._x = (self._x + 1) % 100
         else:
             self._x = (self._x - 1) % 100
+
+    
+    # Setting up a method so that the agents eat part of the environment
+    # and then store the food.
+    
+    def eat(self):
+        if self.environment[self._y][self._x] > 10:
+            self.environment[self._y][self._x] -= 10
+            self.store += 10
