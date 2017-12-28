@@ -1,5 +1,5 @@
 # docpenguin.github.io
-PythonCourse
+Agent-Based Model (ABM)
 
 # Project Purpose <h3>
 This project creates an agent-based model (ABM), whereby agents move and feed within their environment
