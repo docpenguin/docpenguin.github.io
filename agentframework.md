@@ -19,11 +19,11 @@ import math
 
 
 class Agent():
-    """
-	Override the __init__ method so that x and y values are created randomly for each agent and create accessor
-	and mutator methods for both x and y. The agents can move, eat and share their stored food with their
-	neighbours while calculating the distance between pairs of agents.
-	"""
+"""
+Override the __init__ method so that x and y values are created randomly for each agent and create accessor
+and mutator methods for both x and y. The agents can move, eat and share their stored food with their
+neighbours while calculating the distance between pairs of agents.
+"""
     # Overriding the __init__ method to take in the lists 'environment' and
     # 'agents' which allows for communication between the various agents in
     # model.py.
