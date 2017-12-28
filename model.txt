@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-model.py 6.0
+model.py 7.0
 
 Copyright (c) School of Geography.
 University of Leeds, Leeds, West Yorkshire, UK, LS2 9JT.
 
 Created on Sat Oct 28 11:28:48 2017
 
-@author: Ourania Sermpezi
+@author: Rania
 """
 
 #model.py
 
-#import random
-import math
+import random
 #import operator
 import matplotlib.pyplot
 import agentframework
@@ -31,7 +30,13 @@ num_of_agents = 10
 num_of_iterations = 100
 
 
+# Creating a new variable to set up the neighbourhood of all agents.
+
+neighbourhood = 20
+
+
 # Creating an empty list for the CSV reader to store the data in.
+
 environment = []
 
 
@@ -64,19 +69,26 @@ with open('in.txt', newline = '') as f:
     
 
 # Filling the 'agents' list with the 'environment' type list containing all the
-# data from the txt file.
+# data from the txt file. Also adding a link to the list of agents into each agent.
 
 for i in range(num_of_agents):
-    agents.append(agentframework.Agent(environment))
+    agents.append (agentframework.Agent(environment, agents))
 
 
-# Creating a loop to move the coordinates num_of_iterations times and get the
-# agents to eat.
+# Creating a loop to move the coordinates num_of_iterations times, allow them
+# to eat from the environment and calculate the distance between each other to 
+# check whether they are within their neighbourhood and potentially alter their
+# values.
 
 for j in range(num_of_iterations):
     for i in range(num_of_agents):
+        # Randomising the order in which agents are processed each iteration, so
+        # that model artifacts do not occur.
+        
+        random.shuffle(agents)
         agents[i].move()
         agents[i].eat()
+        agents[i].share_with_neighbours(neighbourhood)
 
                 
 # Printing the new coordinates to test that the loop has worked.
@@ -87,6 +99,8 @@ for j in range(num_of_iterations):
 # Setting the y and x limits of the plot axes between 0 and 99.
 
 matplotlib.pyplot.ylim(0, 99)
+
+
 matplotlib.pyplot.xlim(0, 99)
 
 
@@ -106,7 +120,7 @@ for i in range(num_of_agents):
 matplotlib.pyplot.show()
 
 
-# Writing the amended environment data into a csv file. "newline = ''" stops
+# Writing the amended environment data into a csv file. "newline = ''" stops the
 # from leaving one empty row after each one that is being filled in the new file.
 
 with open('dataout.csv', 'w', newline = '') as f2:
@@ -114,17 +128,3 @@ with open('dataout.csv', 'w', newline = '') as f2:
     for row in environment:
         writer.writerow(row)
 
-
-# Defining the eucledian distance method.
-
-def distance_between(agent0, agent1):
-    return math.sqrt(((agent0.x - agent1.x)**2) + ((agent0.y - agent1.y)**2))
-
-
-# Going through all agents and calculating their eucledian distance to all
-# other agents.
-
-for agent0 in agents:
-    for agent1 in agents:
-        distance = distance_between(agent0, agent1)
-        
